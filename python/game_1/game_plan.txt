@@ -1,0 +1,32 @@
+Stuff to build next:
+
+* Turning off music
+* Turning off sound effects.
+* Options screen
+* Power ups:
+    * Diamond laser (power ups)
+    * Player shield power up?
+    * Spikes
+    * Bombs - alien seekers
+    * Smart missile.
+    * mini turtles - circling.
+* Alien waves - so they don't get killed on the side.
+* Bases
+* Alien mother ship - extra points or the laser.
+* Game over goes to start a new game - game start screen. - start button.
+* Convert all to pyglet - so it's a bit more powerful.
+* Galaga? 
+
+---
+First one:
+
+Bombs power up:
+* Power up mechanism - 
+    * Some aliens are another colour.
+    * Shooting them makes power up drop.
+    * Player collision with power up gives player a new feature.
+    * Player keeps feature for this life or until its done.
+* Player shield to test that.
+* Bomb forward
+* Bomb turns towards a close alien.
+* Bomb/alien collision.
