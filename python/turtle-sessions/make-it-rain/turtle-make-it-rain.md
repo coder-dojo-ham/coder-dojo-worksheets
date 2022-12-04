@@ -39,7 +39,9 @@ t.hideturtle()
 t.penup()
 ```
 
-To draw a simple drop we can use a blue circle.
+Save this in a file name like `rain.py` and run it.
+
+To draw a simple drop we can use a blue circle. Add this:
 
 <img src="raindrop-blue-circle.png" style="margin:0; padding: 0; float: right; margin-right: 5%; border: 0; box-shadow: none">
 
@@ -54,7 +56,6 @@ t.stamp()
 `t.shape` changes the turtles shape, `t.goto` jumps to a set of coordinates.
 By using `t.stamp`, we can leave behind a stamp, an image of the turtles current shape on the canvas where it stands.
 
-Try running this.
 
 ## Drawing multiple drops
 
@@ -256,11 +257,31 @@ while True:
 
 <!-- -- id="ideas" -->
 
+### Try adding further parameters
+
+You can try using a 3rd item in the lists - for speed, or raindrop size (t.shapesize). Let's try using it for speed.
+
+When creating the drop, we can try a number between 2 and 4:
+
+<pre><code>for n in range(100):
+    drop = [random.randint(-400, 400), random.randint(-400, 400)<b>, random.randint(2,4)</b>]
+    drops.append(drop)
+</code></pre>
+
+You can then use this 3rd parameter for speed instead of -3:
+
+<pre><code>     for drop in drops:<del>
+         drop[1] -= 3</del><b>
+         drop[1] -= drop[2]</b>
+         if drop[1] < -400:
+             drop[1] = 400
+</code></pre>
+
+This now moves different drops at different speeds, giving a feeling of depth.
+
 ### Try changing the rain drops
 
-Rain drops can be snow flakes too. Try changing the shape to a triangle, or a square. You can also change the colour.
-You can put the pen down and do standard turtle drawing commands
-You can even use GIF or PNG images.
+Rain drops can be snow flakes too. Try changing the shape to a triangle, or a square using turtle commands. You can change the colour, size, put the pen down and do standard turtle drawing commands, or even use GIF or PNG images.
 
 <pre><code>t.penup()
 <del>t.shape("circle")
@@ -275,32 +296,9 @@ def draw_drop(x, y):
 
 Now when you stamp - it will be your image instead of the circles. Happy faces? Footballs? Spaceships? Stars?
 
-### Try adding further parameters
-
-You can try using a 3rd item in the lists - for speed, or raindrop size (t.shapesize). Let's try using it for speed:
-
-When creating the drop, we can try a number between 2 and 4:
-
-<pre><code>
- for n in range(100):
-     drop = [random.randint(-400, 400), random.randint(-400, 400)<b>, random.randint(2,4) </b>]
-     drops.append(drop)
-</code></pre>
-
-You can then use this 3rd parameter for speed instead of -3:
-
-<pre><code>
-     for drop in drops:<b>
-         drop[1] -= drop[2]</b>
-         if drop[1] < -400:
-             drop[1] = 400
-</code></pre>
-
-This now moves different drops at different speeds, giving a feeling of depth.
-
 ### Background images
 
-You can use a GIF or PNG as a background image:
+You can use `turtle.bgcolor` near the top of the code to change the background colour, or you can use a GIF or PNG as a background image:
 
 <pre><code>
 import turtle
@@ -313,10 +311,20 @@ turtle.tracer(0, 0)
 t = turtle.Turtle()
 </code></pre>
 
-![Lake screenshot](inspiration-rain-lake-screenshot.png) \
+<img src="inspiration-rain-lake-screenshot.png" style="height: 200px; margin-right: 10px"><img src="inspiration-space-scene.png" style="height: 200px">
 
-You can create a rainy scene, or a snowy scene. Making the dots small with a space background could turn them into stars.
-You can make a scene with a sun, and a few clouds, and a few raindrops.
+You can create a rainy, space or snowy scenes. Making the dots small with a space background. Get creative!
+
+Stars:
+
+```python
+t.shape("circle")
+t.color("lightblue")
+turtle.bgcolor("black")
+screen = turtle.Screen()
+screen.bgpic("space-background.png")
+t.shapesize(0.1)
+```
 
 ## Turtle Colours
 
@@ -343,21 +351,25 @@ It's worth trying other colour names and seeing what works.
 
 ## Turtle reference
 
-Command                | Effect
----------------------- | ----------------------------------------------
-`t = turtle.Turtle()`  | Make a turtle called t
-`turtle.tracer(0,0)`   | Turn off tracer animation - makes it very fast
-`turtle.update()`      | Make a screen update - handy when fast
-`turtle.done()`        | Program finished, wait for window to close
-`t.clear()`            | Clear everything drawn by this turtle
-`t.speed(0)`           | Make this turtle fast
-`t.penup()`            | Pull the pen up - don't draw lines
-`t.pendown()`          | Put the pen down - draw a line
-`t.hideturtle()`       | Hide the turtle - don't draw it
-`t.goto(x, y)`         | Jump to position x, y. 0, 0 is the middle
-`t.stamp()`            | Stamp the current turtle shape
-`t.shape("shape")`     | Change shape. Try "turtle", "circle", "square"
-`t.color("color")`     | Change color. Try "red", "green", "blue"
-`t.forward(100)`       | go forward 100 pixels
-`t.left(90)`           | turn left 90 degrees
-`t.right(45)`          | turn right 45 degrees
+Command                   | Effect
+------------------------- | ----------------------------------------------
+`t = turtle.Turtle()`     | Make a turtle called t
+`turtle.tracer(0,0)`      | Turn off tracer animation - makes it very fast
+`turtle.update()`         | Make a screen update - handy when fast
+`turtle.done()`           | Program finished, wait for window to close
+`t.clear()`               | Clear everything drawn by this turtle
+`t.speed(0)`              | Make this turtle fast
+`t.penup()`               | Pull the pen up - don't draw lines
+`t.pendown()`             | Put the pen down - draw a line
+`t.hideturtle()`          | Hide the turtle - don't draw it
+`t.goto(x, y)`            | Jump to position x, y. 0, 0 is the middle
+`t.stamp()`               | Stamp the current turtle shape
+`t.shape("shape")`        | Change shape. Try "turtle", "circle", "square"
+`t.shapesize(0.1)`        | Change the size of the shape
+`t.color("color")`        | Change color. Try "red", "green", "blue"
+`t.forward(100)`          | go forward 100 pixels
+`t.left(90)`              | turn left 90 degrees
+`t.right(45)`             | turn right 45 degrees
+`turtle.bgcolor("black")` | Set the screen background to "black"
+`turtle.window_height()`  | Get the height of the window
+`turtle.window_width()`   | Get the width of the window

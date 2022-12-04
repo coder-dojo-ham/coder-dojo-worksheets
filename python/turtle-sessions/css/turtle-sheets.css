@@ -1,0 +1,81 @@
+/* @import "sheet.css"; */
+/* img {
+  width: 100%
+} */
+table {
+  width: 100%
+}
+table.key_info {
+  width: 100%;
+}
+table.key_info, .key_info td {
+  background-color: blue;
+  color: white;
+}
+
+@page {
+  size: A4;
+  margin: 1cm;
+  counter-increment: page;
+  content: "Page " counter(page);
+}
+@page {
+  @bottom-right {
+   content: counter(page) " of " counter(pages);
+  }
+}
+
+/* h3, h2 { page-break-before: always; } */
+pre, blockquote {page-break-inside: avoid;}
+
+
+body {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+hr {
+  background: linear-gradient(to right, moccasin 0%, moccasin 15%, aquamarine 15%, aquamarine 45%, rgb(255, 115, 0) 45%, rgb(255, 115, 0) 60%, rgb(84, 67, 41) 60%);
+  height: 8px;
+  width: 100%;
+}
+
+figure img {
+  vertical-align: bottom;
+}
+figcaption {
+  vertical-align: top;
+  text-align: left;
+  font-size: xx-large;
+  color: saddlebrown;
+  font-weight: bolder;
+  display: inline;
+  margin: 0;
+  padding: 0;
+}
+figure {
+  margin: 0;
+  padding: 0;
+}
+pre {
+  font-size: 0.8em;
+}
+
+@page {
+  @bottom-center {
+    content: counter(page);
+    content: '';
+    display: block;
+    background: linear-gradient(to right, moccasin 0%, moccasin 15%, aquamarine 15%, aquamarine 45%, rgb(255, 115, 0) 45%, rgb(255, 115, 0) 60%, rgb(84, 67, 41) 60%);
+    height: 8px;
+    width: 100%;
+    margin-bottom: 60px;
+  }
+  @bottom-right {
+    content: ""
+  }
+}
+
+.page {
+  page-break-after: always;
+}
+
