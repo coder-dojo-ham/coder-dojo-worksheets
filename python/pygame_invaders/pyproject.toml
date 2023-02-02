@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "pygame-invaders"
+version = "0.1.0"
+description = "Invaders in python using pygame"
+authors = ["Danny Staple <danny@orionrobots.co.uk>"]
+readme = "README.md"
+packages = [{include = "pygame_invaders"}]
+
+[tool.poetry.dependencies]
+python = ">=3.8,<3.11"
+coder-dojo-common-python = {extras = ["games"], version = "^0.0.2"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
