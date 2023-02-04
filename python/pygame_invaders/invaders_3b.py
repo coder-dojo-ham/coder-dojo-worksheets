@@ -11,15 +11,11 @@ clock = pygame.time.Clock()
 asset_path = "assets/space-shooter-redux/PNG/"
 player_img = pygame.image.load(asset_path + "playerShip1_blue.png")
 
-class Player(pygame.sprite.Sprite):
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = player_img
-        self.rect = self.image.get_rect()
-        self.rect.centerx = WIDTH/2
-        self.rect.bottom = HEIGHT-10
-
-player = Player()
+player = pygame.sprite.Sprite()
+player.image = player_img
+player.rect = player.image.get_rect()
+player.rect.centerx = WIDTH/2
+player.rect.bottom = HEIGHT-10
 
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
