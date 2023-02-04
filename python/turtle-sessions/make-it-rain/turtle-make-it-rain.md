@@ -4,7 +4,7 @@ title: Python Turtle Raindrops
 <link rel="stylesheet" href="../css/sheet.css">
 
 <table class="key_info">
-<tr><td>Level: Intermediate</td>
+<tr><td class="difficulty">Difficulty: <b>🌶🌶</b><i>🌶🌶🌶</i></td>
 <td>Language: Python</td>
 <td>Requires: Laptop with Python</td></tr>
 </table>
@@ -81,7 +81,7 @@ draw_drop(50, 20)
 `x` is how far across the screen from the left, `y` is how far up the screen from the bottom.
 There is a negative number there. This is because `0, 0` is the middle of screen - so to go further down, or left, we need to subtract from `0` to get there. When you run this, it should draw 3 raindrops.
 
-![Drawing 3 drops](drawing-3-drops.png) \
+![Drawing 3 drops](drawing-3-drops.png)
 
 ## More rain
 <!-- -- id="more-rain" -->
@@ -121,7 +121,7 @@ for drop in drops:
     draw_drop(drop[0], drop[1])
 </code></pre>
 
-![many raindrops screenshot](many-raindrops.png) \
+![many raindrops screenshot](many-raindrops.png)
 
 Each time you run it - you'll get different drops!
 
