@@ -1,39 +1,35 @@
-# Turtle, Python sheet 1
-
+---
+title: Python turtle sheet 1
+---
 <style>
-    body {
-      counter-reset: page;
-    }
     img {
-    	width: 100%
-	}
+        width: 100%
+    }
     table {
-   		width: 100%
-	}
-   table.key_info {
-    	width: 100%;
-	}
+        width: 100%
+    }
+    table.key_info {
+        width: 100%;
+    }
     table.key_info, .key_info td {
-    	background-color: blue;
-    	color: white;
-	}
+        background-color: blue;
+        color: white;
+    }
 
-	@media print {
-	   pre, blockquote {page-break-inside: avoid;}
-		h3, h2  { page-break-after: avoid; }
-	
-		.page::after {
-			counter-increment: page;
-		   content: "Page " counter(page);
-		}
-		.page {
-			page-break-after: always;
-			display: block;
-			position: fixed;
-			bottom: 0pt;
-			right: 0pt;
-	   }
-	}
+    @page {
+        size: A4;
+        margin: 1cm;
+        counter-increment: page;
+        content: "Page " counter(page);
+    }
+    @page {
+        @bottom-right {
+         content: counter(page) " of " counter(pages);
+        }
+    }
+
+    h3, h2 { page-break-before: always; }
+    pre, blockquote {page-break-inside: avoid;}
 </style>
 
 <table class="key_info">
@@ -46,9 +42,9 @@
 
 We'll use python to make shapes with turtle graphics, starting from a simple square and then working up to more interesting shapes.
 
-<div class="page"></div>
+I recommend using Mu in Python3 mode for this.
 
-## Warm up - Squares in turtle
+## Drawing squares in turtle
 
 In the editor, type this code:
 
@@ -60,11 +56,11 @@ In the editor, type this code:
         turtle.left(90)
 ```
 
-When you save and run, you'll get something like this:
+When you save (I suggest shapes.py) and run, you'll get something like this:
 
-![simple_square](2017-05-17-simple-turtle-square.png)
+![Turtle square](2017-05-17-simple-turtle-square.png)
 
-Or perhaps a triangle, in a new file try this:
+Or perhaps a triangle, try this:
 
 ```python
     import turtle
@@ -74,15 +70,17 @@ Or perhaps a triangle, in a new file try this:
         turtle.left(120)
 ```
 
-![simple triangle](2017-05-17-turtle-triangle.png)
+![Turtle triangle](2017-05-17-turtle-triangle.png)
 
 Now if I told you that a Hexagon has 6 sides, and it needs to turn left by 60, can you write code that does this?
 
-![turtle hexagon](2017-05-17-turtle-hexagon.png)
+![Turtle hexagon](2017-05-17-turtle-hexagon.png)
 
 Lets make this a bit more interesting though - these are all very nice, but not too colourful. In one of the examples before (I chose triangle), add pen colour before the loop:
 
 ```python
+    import turtle
+
     turtle.pencolor("red")
 
     for n in range(3):
@@ -92,7 +90,7 @@ Lets make this a bit more interesting though - these are all very nice, but not 
 
 ![](2017-05-18-turtle-red-triangle.png)
 
-## More colours 
+## More colours
 
 There is a "gotcha" here - turtle spells colour without a "u"!
 

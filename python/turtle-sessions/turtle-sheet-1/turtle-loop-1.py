@@ -7,5 +7,3 @@ for colour in myshape:
     turtle.pencolor(colour)
     turtle.forward(100)
     turtle.left(100)
-
-turtle.done()
