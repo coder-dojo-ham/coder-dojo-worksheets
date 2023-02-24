@@ -1,4 +1,5 @@
 import pygame
+import random
 
 WIDTH=800
 HEIGHT=600
@@ -10,14 +11,22 @@ pygame.display.set_caption("Invaders!")
 clock = pygame.time.Clock()
 asset_path = "assets/space-shooter-redux/PNG/"
 player_img = pygame.image.load(asset_path + "playerShip1_blue.png")
+bullet_img = pygame.image.load(asset_path + "Lasers/laserBlue01.png")
 
 alien_img = pygame.image.load(asset_path + "Enemies/enemyRed1.png")
-bullet_img = pygame.image.load(asset_path + "Lasers/laserBlue01.png")
+alien_bullet_img = pygame.image.load(asset_path + "Lasers/laserRed04.png")
+
 explosion_anim = [
     pygame.image.load(asset_path + "Effects/star1.png"),
     pygame.image.load(asset_path + "Effects/star2.png"),
     pygame.image.load(asset_path + "Effects/star3.png")
 ]
+
+
+all_sprites = pygame.sprite.Group()
+bullets = pygame.sprite.Group()
+aliens = pygame.sprite.Group()
+
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
@@ -27,7 +36,24 @@ class Player(pygame.sprite.Sprite):
         self.rect.centerx = WIDTH/2
         self.rect.bottom = HEIGHT-10
 
+
+class AlienBullet(pygame.sprite.Sprite):
+    def __init__(self, alien_rect):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = alien_bullet_img
+        self.rect = self.image.get_rect()
+        self.rect.centerx = alien_rect.centerx
+        self.rect.top = alien_rect.bottom
+        self.speedy = 10
+    
+    def update(self):
+        self.rect.y += self.speedy
+        if self.rect.top > HEIGHT:
+            self.kill()
+
+
 class Alien(pygame.sprite.Sprite):
+    fire_rate = 1000
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
         self.image = alien_img
@@ -35,6 +61,8 @@ class Alien(pygame.sprite.Sprite):
         self.rect.centerx = WIDTH/2
         self.rect.top = 10
         self.speedx = 5
+        # firing
+        self.next_shot = pygame.time.get_ticks() + random.randint(Alien.fire_rate, Alien.fire_rate * 2)
 
     def update(self):
         self.rect.centerx += self.speedx
@@ -42,6 +70,14 @@ class Alien(pygame.sprite.Sprite):
             self.speedx = -5
         if self.rect.left < 0:
             self.speedx = 5
+        # fire if it's time
+        now = pygame.time.get_ticks()
+        if now > self.next_shot:
+            self.next_shot = now + random.randint(Alien.fire_rate, Alien.fire_rate * 2)
+            bullet = AlienBullet(self.rect)
+            all_sprites.add(bullet)
+            bullets.add(bullet)
+
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, player_rect):
@@ -56,6 +92,7 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.y += self.speedy
         if self.rect.bottom < 0:
             self.kill()
+
 
 class AlienExplosion(pygame.sprite.Sprite):
     def __init__(self, center):
@@ -80,6 +117,7 @@ class AlienExplosion(pygame.sprite.Sprite):
                 self.rect = self.image.get_rect()
                 self.rect.center = center
 
+
 def collide_aliens(aliens, bullets, all_sprites):
     for alien in aliens:
         hits = pygame.sprite.spritecollide(alien, bullets, True)
@@ -88,9 +126,6 @@ def collide_aliens(aliens, bullets, all_sprites):
             explosion = AlienExplosion(alien.rect.center)
             all_sprites.add(explosion)
 
-all_sprites = pygame.sprite.Group()
-bullets = pygame.sprite.Group()
-aliens = pygame.sprite.Group()
 
 player = Player()
 all_sprites.add(player)
