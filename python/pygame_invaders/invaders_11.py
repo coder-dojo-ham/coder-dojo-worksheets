@@ -22,11 +22,16 @@ explosion_anim = [
     pygame.image.load(asset_path + "Effects/star3.png")
 ]
 
+player_explosion_anim = [
+    pygame.image.load(asset_path + "Damage/playerShip1_damage3.png"),
+    pygame.image.load(asset_path + "Damage/playerShip1_damage2.png"),
+    pygame.image.load(asset_path + "Damage/playerShip1_damage1.png")
+]
 
 all_sprites = pygame.sprite.Group()
 bullets = pygame.sprite.Group()
 aliens = pygame.sprite.Group()
-
+alien_bullets = pygame.sprite.Group()
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
@@ -76,7 +81,7 @@ class Alien(pygame.sprite.Sprite):
             self.next_shot = now + random.randint(Alien.fire_rate, Alien.fire_rate * 2)
             bullet = AlienBullet(self.rect)
             all_sprites.add(bullet)
-            bullets.add(bullet)
+            alien_bullets.add(bullet)
 
 
 class Bullet(pygame.sprite.Sprite):
@@ -118,6 +123,30 @@ class AlienExplosion(pygame.sprite.Sprite):
                 self.rect.center = center
 
 
+class PlayerExplosion(pygame.sprite.Sprite):
+    def __init__(self, center):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = player_explosion_anim[0]
+        self.rect = self.image.get_rect()
+        self.rect.center = center
+        self.frame = 0
+        self.last_update = pygame.time.get_ticks()
+        self.frame_rate = 50
+
+    def update(self):
+        now = pygame.time.get_ticks()
+        if now - self.last_update > self.frame_rate:
+            self.last_update = now
+            self.frame += 1
+            if self.frame == len(player_explosion_anim):
+                self.kill()
+            else:
+                center = self.rect.center
+                self.image = player_explosion_anim[self.frame]
+                self.rect = self.image.get_rect()
+                self.rect.center = center
+
+
 def collide_aliens(aliens, bullets, all_sprites):
     for alien in aliens:
         hits = pygame.sprite.spritecollide(alien, bullets, True)
@@ -125,6 +154,14 @@ def collide_aliens(aliens, bullets, all_sprites):
             alien.kill()
             explosion = AlienExplosion(alien.rect.center)
             all_sprites.add(explosion)
+
+
+def collide_player_alien_bullets(player, alien_bullets):
+    hits = pygame.sprite.spritecollide(player, alien_bullets, True)
+    if hits:
+        player.kill()
+        explosion = PlayerExplosion(player.rect.center)
+        all_sprites.add(explosion)
 
 
 player = Player()
@@ -155,6 +192,7 @@ while running:
         player.rect.centerx += 5
     all_sprites.update()
     collide_aliens(aliens, bullets, all_sprites)
+    collide_player_alien_bullets(player, alien_bullets)
     screen.fill((0,0,0))
     all_sprites.draw(screen)
     pygame.display.update()
