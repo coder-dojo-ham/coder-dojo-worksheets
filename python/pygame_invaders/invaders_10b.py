@@ -38,9 +38,9 @@ class Alien(pygame.sprite.Sprite):
     def update(self):
         self.rect.centerx += self.speedx
         if self.rect.right > WIDTH:
-          self.speedx = -5
+            self.speedx = -5
         if self.rect.left < 0:
-          self.speedx = 5
+            self.speedx = 5
 
 class Bullet(pygame.sprite.Sprite):
     def __init__(self, player_rect):
