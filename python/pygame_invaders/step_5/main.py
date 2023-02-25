@@ -25,11 +25,11 @@ while running:
         if event.type == pygame.QUIT:
             running = False
         elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
+            if event.key == pygame.K_SPACE and player.alive():
                 bullet = Bullet(player.rect)
                 all_sprites.add(bullet)
                 bullets.add(bullet)
-    keys = pygame.key.get_pressed()
+        keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
         player.rect.centerx -= 5
     elif keys[pygame.K_RIGHT]:
@@ -37,6 +37,8 @@ while running:
     all_sprites.update()
     collide_aliens(bullets, all_sprites)
     collide_player_alien_bullets(all_sprites, player, alien_bullets)
+    if not player.alive():
+        pygame.display.set_caption("Game Over!")
     screen.fill((0,0,0))
     all_sprites.draw(screen)
     pygame.display.update()

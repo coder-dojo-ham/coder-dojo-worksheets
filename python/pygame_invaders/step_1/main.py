@@ -2,7 +2,9 @@ import pygame
 
 from config import *
 from player import Player
+
 pygame.init()
+
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Invaders!")
 clock = pygame.time.Clock()
