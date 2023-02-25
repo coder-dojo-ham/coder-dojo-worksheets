@@ -18,7 +18,29 @@ This sheet recommends using Thonny in Python 3 mode.
 
 ### Assets
 
-Get the assets with `kenney-assets install space-shooter-redux`
+Get the assets with `kenney-assets install space-shooter-redux` or download them from [here](https://kenney.nl/assets/space-shooter-redux), and unzip into a folder called `assets`.
+
+## Step 1 - The player
+
+![Step 1 - The player on screen](step_1/step_1.png)
+
+### Configuration
+
+A few configuration variables allow us to change the size and speed of our game, along with where the assets are.
+
+Make a file "config.py" and add the following:
+
+```python
+ASSET_PATH = "assets/space-shooter-redux/PNG/"
+WIDTH=800
+HEIGHT=600
+FPS=30
+```
+
+### The player
+
+
+
 
 ## Starting up pygame
 
