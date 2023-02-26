@@ -4,428 +4,150 @@ title: Invaders!
 <link rel="stylesheet" href="../common/sheet.css">
 
 <table class="key_info">
-<tr><td class="difficulty">Difficulty: <b>🌶🌶</b><i>🌶🌶🌶</i></td>
+<tr><td class="difficulty">Difficulty: <b>🌶🌶🌶</b><i>🌶🌶</i></td>
 <td>Language: Python</td>
 <td>Requires: Laptop with Python, coderdojo [games]</td></tr>
 </table>
 
-<img src="inspiration-screenshot.png" class="leader_picture"/>
+<img src="step_3/step_3.png" class="leader_picture" style="width: 45%"/><img src="step_4/step_4.png" class="leader_picture" style="width: 45%"/>
 
 Waves of aliens are attacking the Earth! We need to defend our planet by shooting them down with our laser cannon.
-In this you will learn how to use the pygame library to make a game, along with classes and lists.
+In this you will learn how to use the pygame library to make a game, along with classes, python imports and pygame sprite groups. This game will be made using multiple files, so you can see how to organise your code.
 
-This sheet recommends using Thonny in Python 3 mode.
+Please take care with names and case. Python is case sensitive, so `Player` is different to `player`. If you get an error, check your spelling and capitalisation.
+
+This sheet recommends using Thonny in Python 3 mode and the `coder-dojo-common-python[games]` package.
 
 ### Assets
 
-Get the assets with `kenney-assets install space-shooter-redux`
+Create a folder for this game named "`invaders`". If using mu, put this under the "`mu_code`" folder.
+Download the assets from <https://kenney.nl/assets/space-shooter-redux>, and unzip into a folder called "`assets`" in the same folder as your code. 
 
-## Starting up pygame
+## Step 1 - The player
 
-Pygame needs a couple of things to get started:
+![Step 1 - The player on screen](step_1/step_1.png)
+
+### Configuration
+
+A few configuration variables allow us to change the size and speed of our game, along with where the assets are.
+
+Make a file "`config.py`" and add the following:
+
+```python
+ASSET_PATH = "assets/space-shooter-redux/PNG/"
+WIDTH = 800
+HEIGHT = 600
+FPS = 30
+```
+
+Asset path will indicate what folder on your computer the game will load its assets from.
+
+### The player
+
+We'll create a Player sprite class, loading an image from the assets path.
+Create a new file called "`player.py`" and add the following:
 
 ```python
 import pygame
+from config import *
 
-WIDTH=800
-HEIGHT=600
-FPS=30
+player_img = pygame.image.load(ASSET_PATH + "playerShip1_blue.png")
 
-pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Invaders!")
-clock = pygame.time.Clock()
-
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-    clock.tick(FPS)
-```
-
-We've set a display size, you can adjust to something bigger if you like.
-There's a caption, which is the text that appears in the window title bar.
-
-We also have a clock so the game can run at a consistent speed.
-
-The `running` variable is used to control the main loop, and the `for` loop is used to process events. Events are things like mouse clicks, key presses, and window close events.
-At this point, this only handles closing the window.
-
-![The blank window](invaders_1.png)
-
-## Drawing a player
-
-We need a player to shoot the aliens, so let's draw one.
-
-We'll show added code with a `+` sign, with lines around it to show where. Do not type the `+` sign.
-
-```diff
-clock = pygame.time.Clock()
-+ asset_path = "assets/space-shooter-redux/PNG/"
-+ player_img = pygame.image.load(asset_path + "playerShip1_blue.png")
-```
-
-We are loading the image here, and storing it in the `player_img` variable. The variable `asset_path` will help us load assets.
-
-Then in the main loop we need to draw it:
-
-```diff
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-+   screen.blit(player_img, (WIDTH/2, HEIGHT-100))
-+   pygame.display.update()
-    clock.tick(FPS)
-```
-
-You should now see a player ship near the bottom of the screen.
-
-![The player ship](invaders_2.png)
-
-## Centering the player
-
-You might have noticed that the player ship is not centred on the screen.
-
-```diff
-  player_img = pygame.image.load(asset_path + "playerShip1_blue.png")
-+ player_rect = player_img.get_rect()
-+ player_rect.centerx = WIDTH/2
-+ player_rect.bottom = HEIGHT-10
-````
-
-The `-` sign in the code means that we've removed a line and swapped it for something else. Do not type the `-` sign. Make this change in the main loop:
-
-```diff
--   screen.blit(player_img, (WIDTH/2, HEIGHT-100))
-+   screen.blit(player_img, player_rect))
-    pygame.display.update()
-```
-
-We've fixed this by using the `get_rect()` method to get the size of the image, and then centring it. We can also set the bottom of the image to be 10 pixels above the bottom of the screen.
-
-We've also changed the `blit` call to use the `player_rect` variable instead of the coordinates.
-
-![The player ship centred](invaders_3.png)
-
-## Moving the player
-
-This isn't much fun yet. We want things to move.
-We'll use the left and right arrow keys to move the player.
-
-```diff
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-+   keys = pygame.key.get_pressed()
-+   if keys[pygame.K_LEFT]:
-+       player_rect.centerx -= 5
-+   elif keys[pygame.K_RIGHT]:
-+       player_rect.centerx += 5
-    screen.blit(player_img, player_rect)
-    pygame.display.update()
-    clock.tick(FPS)
-```
-
-This code checks for key presses, and moves the player left or right by 5 pixels. Let's run this!
-
-![The player ship moving](invaders_4.png)
-
-Hmm - this doesn't quite look right! It's gliding around leaving trails.
-
-We need to clear the screen before we draw the player. We can do this by filling the screen with a colour:
-
-```diff
-+   screen.fill((0,0,0))
-    screen.blit(player_img, player_rect)
-    pygame.display.update()
-```
-
-## Checkpoint
-
-Your code at this stage should look like:
-
-```python
-import pygame
-
-WIDTH=800
-HEIGHT=600
-FPS=30
-
-pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Invaders!")
-clock = pygame.time.Clock()
-asset_path = "assets/space-shooter-redux/PNG/"
-player_img = pygame.image.load(asset_path + "playerShip1_blue.png")
-player_rect = player_img.get_rect()
-player_rect.centerx = WIDTH/2
-player_rect.bottom = HEIGHT-10
-
-
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_LEFT]:
-        player_rect.centerx -= 5
-    elif keys[pygame.K_RIGHT]:
-        player_rect.centerx += 5
-    screen.fill((0,0,0))
-    screen.blit(player_img, player_rect)
-    pygame.display.update()
-    clock.tick(FPS)
-```
-
-## Adding an alien
-
-We need some aliens to shoot at. Let's add one.
-
-```diff
-+ alien_img = pygame.image.load(asset_path + "Enemies/enemyRed1.png")
-+ alien_rect = alien_img.get_rect()
-+ alien_rect.centerx = WIDTH/2
-+ alien_rect.top = 10
-```
-
-We can then draw it in the main loop:
-
-```diff
-    screen.fill((0,0,0))
-    screen.blit(player_img, player_rect)
-+   screen.blit(alien_img, alien_rect)
-    pygame.display.update()
-```
-
-![The alien](invaders_6.png)
-
-This is ok, but it's not very exciting.
-We are going to make an alien sprite class, and use this to move the alien.
-
-```diff
-alien_img = pygame.image.load(asset_path + "Enemies/enemyRed1.png")
-- alien_rect = alien_img.get_rect()
-- alien_rect.centerx = WIDTH/2
-- alien_rect.top = 10
-+ class Alien(pygame.sprite.Sprite):
-+     def __init__(self):
-+         pygame.sprite.Sprite.__init__(self)
-+         self.image = alien_img
-+         self.rect = self.image.get_rect()
-+         self.rect.centerx = WIDTH/2
-+         self.rect.top = 10
-+         self.speedx = 5
-+
-+   def update(self):
-+       self.rect.centerx += self.speedx
-+       if self.rect.right > WIDTH:
-+         self.speedx = -5
-+       if self.rect.left < 0:
-+         self.speedx = 5
-+
-+  def draw(self):
-+       screen.blit(self.image, self.rect)
-+ alien = Alien()
-```
-
-We've moved the code for creating the alien into this class. The class lets us group together the code for the alien, and makes it easier to add more aliens later. It's built from a Pygame sprite, so it can borrow code from the Pygame sprite class.
-
-A `method` is like a function, but can use variables from the class.
-
-The class has an `__init__` method, which is a recipe to make an alien. The `Alien` also has an `update` method to move it. This uses a `speedx` (as in speed in the x direction) variable to move, and when the alien reaches the edge of the screen, it reverses direction. 
-We've also added a `draw` method to draw the alien.
-
-
-Let's use this in the main loop:
-
-```diff
-    screen.fill((0,0,0))
-    screen.blit(player_img, player_rect)
--   screen.blit(alien_img, alien_rect)
-+   alien.update()
-+   alien.draw()
-    pygame.display.update()
-```
-
-![The alien moving](invaders_7.png)
-
-## Alien movement Checkpoint
-
-Your code at this stage should look like:
-
-```python
-import pygame
-
-WIDTH=800
-HEIGHT=600
-FPS=30
-
-pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Invaders!")
-clock = pygame.time.Clock()
-asset_path = "assets/space-shooter-redux/PNG/"
-player_img = pygame.image.load(asset_path + "playerShip1_blue.png")
-player_rect = player_img.get_rect()
-player_rect.centerx = WIDTH/2
-player_rect.bottom = HEIGHT-10
-alien_img = pygame.image.load(asset_path + "Enemies/enemyRed1.png")
-
-class Alien(pygame.sprite.Sprite):
+class Player(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.image = alien_img
+        self.image = player_img
         self.rect = self.image.get_rect()
         self.rect.centerx = WIDTH/2
-        self.rect.top = 10
-        self.speedx = 5
+        self.rect.bottom = HEIGHT-10
+```
 
-    def update(self):
-        self.rect.centerx += self.speedx
-        if self.rect.right > WIDTH:
-          self.speedx = -5
-        if self.rect.left < 0:
-          self.speedx = 5
+We load the player ship image with `pygame.image.load`. You could have a look in the assets and change this for another ship if you like.
 
-    def draw(self):
-        screen.blit(self.image, self.rect)
+The Pygame sprite needs a rectangle to describe its position and size. We've based this on the image size, and centred it on the screen.
 
-alien = Alien()
+The rectangle in `self.rect` is where the x and y coordinates or the image are calculated. In pygame, we can set the centrex and y, or we can use handy things like `bottom` to set the y coordinate of the bottom of the player sprite. We use `image.get_rect` to get the right sized rectangle for the image.
 
+You can run this to check for errors, but it won't show anything yet.
+
+### The game
+
+The file `main.py` will load the other parts of the game in, and runs the main loop.
+Let's import the player and the config we've just made.
+
+Create a new file called "`main.py`" and add the following:
+
+```python
+import pygame
+
+from config import *
+from player import Player
+```
+
+We need to set up the screen with a title and a clock to control the game speed. If you want you can change that title!
+
+```python
+pygame.init()
+
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Invaders!")
+clock = pygame.time.Clock()
+```
+
+Sprite groups let us do things to a bunch of sprites at once, like drawing them all. Let's create a group of sprites, and add the player to it:
+
+```python
+all_sprites = pygame.sprite.Group()
+
+player = Player()
+all_sprites.add(player)
+```
+
+Next is the main loop. It handles events, like a quit event, and draws the sprites. It also ticks the clock to keep the game running at the right speed.
+
+```python
 running = True
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_LEFT]:
-        player_rect.centerx -= 5
-    elif keys[pygame.K_RIGHT]:
-        player_rect.centerx += 5
     screen.fill((0,0,0))
-    screen.blit(player_img, player_rect)
-    alien.update()
-    alien.draw()  
+    all_sprites.draw(screen)
     pygame.display.update()
     clock.tick(FPS)
 ```
 
-## Adding a bullet
+The double brackets on the screen.fill line are deliberate. The screen.fill parameter is a colour, represented as a tuple of (red, green, blue) values. Using 0's for all of them gives us black. You can change this to other colours for a different background - it mixes (red, green, blue) where each value is between 0 and 255.
 
-The player should shoot lasers at the alien. Let's add a bullet class for these.
+At this point you can run the game and see the player on screen.
 
-```diff
-+ bullet_img = pygame.image.load(asset_path + "Lasers/laserBlue01.png")
-+ class Bullet(pygame.sprite.Sprite):
-+     def __init__(self):
-+         pygame.sprite.Sprite.__init__(self)
-+         self.image = bullet_img
-+         self.rect = self.image.get_rect()
-+         self.rect.centerx = player_rect.centerx
-+         self.rect.bottom = player_rect.top
-+         self.speedy = -10
-+
-+     def update(self):
-+         self.rect.y += self.speedy
-+         if self.rect.bottom < 0:
-+             self.kill()
+The variable `running` is used to keep the game running until we quit. `while` the variable `running` is true, the game loop will go. The `for` loop goes through all the events that have happened since the last frame, and checks if we've quit. If we have, we set `running` to `False` and the game will stop.
 
-alien = Alien()
-```
+Test and run this code to see the player on screen.
 
-This has a `speedy` variable to move the bullet up the screen. It also has a `kill` method to remove the bullet from the game.
+## Step 2 - The player moves
 
-Pygame can manage a group of sprites for us, so we can add a group for the bullets:
+![Step 2 - The player moves](step_2/step_2.png)
 
-```diff
+We are going to add player controls and weapon firing for the player.
 
-alien = Alien()
+### Weapons hot!
 
-+ all_sprites = pygame.sprite.Group()
-+ all_sprites.add(alien)
-+ bullets = pygame.sprite.Group()
-```
+Let's make a file called `weapons.py` and add a class for the player's weapon. This will look quite similar to the player file.
 
-We can then add a bullet to the game when the player presses the space bar:
-
-```diff
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-+       elif event.type == pygame.KEYDOWN:
-+           if event.key == pygame.K_SPACE:
-+               bullet = Bullet()
-+               all_sprites.add(bullet)
-+               bullets.add(bullet)
-    if keys[pygame.K_LEFT]:
-        player_rect.centerx -= 5
-    elif keys[pygame.K_RIGHT]:
-        player_rect.centerx += 5
-```
-
-We can then update and draw the alien and bullet sprites in the main loop:
-
-```diff
-+   all_sprites.update()
-    screen.fill((0,0,0))
-    screen.blit(player_img, player_rect)
--    alien.update()
--    alien.draw()
-+   all_sprites.draw(screen)
-    pygame.display.update()
-```
-
-The all_sprites draw method will automatically blit sprite images to the screen with their rects.
-
-![Bullets](invaders_8.png)
-
-These bullets are nice, but they are sailing right through the enemy. We need to add some collision detection.
-
-## Bullets Checkpoint
+Create a new file called "`weapons.py`" and add the following:
 
 ```python
 import pygame
+from config import *
 
-WIDTH=800
-HEIGHT=600
-FPS=30
+bullet_img = pygame.image.load(ASSET_PATH + "Lasers/laserBlue01.png")
 
-pygame.init()
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Invaders!")
-clock = pygame.time.Clock()
-asset_path = "assets/space-shooter-redux/PNG/"
-player_img = pygame.image.load(asset_path + "playerShip1_blue.png")
-player_rect = player_img.get_rect()
-player_rect.centerx = WIDTH/2
-player_rect.bottom = HEIGHT-10
-
-class Alien(pygame.sprite.Sprite):
-    def __init__(self):
-        pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(asset_path + "Enemies/enemyRed1.png")
-        self.rect = self.image.get_rect()
-        self.rect.centerx = WIDTH/2
-        self.rect.top = 10
-        self.speedx = 5
-
-    def update(self):
-        self.rect.centerx += self.speedx
-        if self.rect.right > WIDTH:
-          self.speedx = -5
-        if self.rect.left < 0:
-          self.speedx = 5
-
-    def draw(self):
-        screen.blit(self.image, self.rect)
 
 class Bullet(pygame.sprite.Sprite):
-    def __init__(self):
+    def __init__(self, player_rect):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.image.load(asset_path + "Lasers/laserBlue01.png")
+        self.image = bullet_img
         self.rect = self.image.get_rect()
         self.rect.centerx = player_rect.centerx
         self.rect.bottom = player_rect.top
@@ -435,209 +157,377 @@ class Bullet(pygame.sprite.Sprite):
         self.rect.y += self.speedy
         if self.rect.bottom < 0:
             self.kill()
-
-    def draw(self):
-        screen.blit(self.image, self.rect)
-
-alien = Alien()
-all_sprites = pygame.sprite.Group()
-all_sprites.add(alien)
-bullets = pygame.sprite.Group()
-
-running = True
-while running:
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-                bullet = Bullet()
-                all_sprites.add(bullet)
-                bullets.add(bullet)            
-    keys = pygame.key.get_pressed()
-    if keys[pygame.K_LEFT]:
-        player_rect.centerx -= 5
-    elif keys[pygame.K_RIGHT]:
-        player_rect.centerx += 5
-    all_sprites.update()
-    screen.fill((0,0,0))
-    screen.blit(player_img, player_rect)
-    all_sprites.draw(screen)
-    pygame.display.update()
-    clock.tick(FPS)
 ```
 
-## Collisions!
+This sprite is created with a player rect, so it knows where to start. It sets its owm bottom coordinate to the top (front) of the player sprite. It moves up the screen at a constant speed `speedy`, and is removed when it goes off the top of the screen with the call to `self.kill()`.
 
-We want to stop those aliens somehow. Let's help the bullets make contact.
+Sprites can have an `update` method, which is called every frame. This is where we can move the sprite.
+
+### Taking control!
+
+At the top of `main.py`, after importing Player, add the bullet import line:
 
 ```diff
-    all_sprites.update()
-+   hits = pygame.sprite.spritecollide(alien, bullets, True)
-+   if hits:
-+       alien.kill()
-    screen.fill((0,0,0))
-    screen.blit(player_img, player_rect)
+ from player import Player
++from weapons import Bullet
+ pygame.init()
 ```
 
-The good news is that the sprite groups, along with the rectangles make this easy! We can use the `spritecollide` method to check if any of the bullets have collided with the alien. If they have, we can remove the alien and the bullet.
-
-We can run this, and you should be able to fire and shoot down the alien.
-However, there's not much fanfare, the alien simply disappears. Let's add some explosions.
-
-### Explosions
-
-We can add an explosion class to the game. This will be a sprite that will be added to the game when the alien is killed.
-
-First - let's load some explosion images:
+We'll also add a bullets group to specifically track these. Next to the `all_sprites` creation add:
 
 ```diff
-alien_img = pygame.image.load(asset_path + "Enemies/enemyRed1.png")
-bullet_img = pygame.image.load(asset_path + "Lasers/laserBlue01.png")
-+explosion_anim = [
-+    pygame.image.load(asset_path + "Effects/star1.png.png"),
-+    pygame.image.load(asset_path + "Effects/star2.png.png"),
-+    pygame.image.load(asset_path + "Effects/star3.png.png")
-+]
+ all_sprites = pygame.sprite.Group()
++bullets = pygame.sprite.Group()
 ```
 
-Then we can add an alien explosion class (after the Bullet class):
+Let's add movement controls to the main loop:
 
 ```diff
-+class AlienExplosion(pygame.sprite.Sprite):
-+    def __init__(self, center):
-+        pygame.sprite.Sprite.__init__(self)
-+        self.image = explosion_anim[0]
-+        self.rect = self.image.get_rect()
-+        self.rect.center = center
-+        self.frame = 0
-+        self.last_update = pygame.time.get_ticks()
-+        self.frame_rate = 10
-+
-+    def update(self):
-+        now = pygame.time.get_ticks()
-+        if now - self.last_update > self.frame_rate:
-+            self.last_update = now
-+            self.frame += 1
-+            if self.frame == len(explosion_anim):
-+                self.kill()
-+            else:
-+                center = self.rect.center
-+                self.image = explosion_anim[self.frame]
-+                self.rect = self.image.get_rect()
-+                self.rect.center = center
+ while running:
+     for event in pygame.event.get():
+         if event.type == pygame.QUIT:
+             running = False
++        elif event.type == pygame.KEYDOWN:
++            if event.key == pygame.K_SPACE:
++                bullet = Bullet(player.rect)
++                all_sprites.add(bullet)
++                bullets.add(bullet)
++    keys = pygame.key.get_pressed()
++    if keys[pygame.K_LEFT]:
++        player.rect.centerx -= 5
++    elif keys[pygame.K_RIGHT]:
++        player.rect.centerx += 5
+     all_sprites.update()
+     screen.fill((0,0,0))
+     all_sprites.draw(screen)
+     pygame.display.update()
+     clock.tick(FPS)
 ```
 
-This has an update to cycle through the explosion images at the explosion frame rate. It will then kill itself when it has finished.
+This handles firing as a key down event, but movement is based on held keys. We use `pygame.key.get_pressed` to get a list of all the keys. Those that are currently pressed will be `True`. We can then check if the left or right keys are pressed, and move the player accordingly.
 
-We can then add the explosion to the collision handling area in the main loop:
+Run this and you should be able to move the player left and right, and fire bullets with the space bar.
 
-```diff
-    all_sprites.update()
-    hits = pygame.sprite.spritecollide(alien, bullets, True)
-    if hits:
-        alien.kill()
-+       explosion = AlienExplosion(alien.rect.center)
-+       all_sprites.add(explosion)
-    screen.fill((0,0,0))
-```
+## Step 3 - The aliens
 
-## Alien shoots back!
+![Step 3 - The aliens](step_3/step_3.png)
 
-The player can shoot the alien, but the alien can't shoot the player. Let's add that. We first need to put the player in a Sprite:
+We'll add some aliens to the game, and make them move across the screen.
 
-```diff
-player_img = pygame.image.load(asset_path + "playerShip1_blue.png")
--player_rect = player_img.get_rect()
--player_rect.centerx = WIDTH/2
--player_rect.bottom = HEIGHT-10
-```
+### Aliens
 
-And then we can add the player class, above the Alien class:
-```diff
-+class Player(pygame.sprite.Sprite):
-+    def __init__(self):
-+        pygame.sprite.Sprite.__init__(self)
-+        self.image = player_img
-+        self.rect = self.image.get_rect()
-+        self.rect.centerx = WIDTH/2
-+        self.rect.bottom = HEIGHT-10
-+
-+    def draw(self):
-+       screen.blit(self.image, self.rect)
-```
+Let's make a file called "`alien.py`" and add a class for the alien sprite. This will look quite similar to the player file.
 
-The bullet class can be modified to use the player rect:
+Create a new file called "`alien.py`" and add the following:
 
-```diff
-class Bullet(pygame.sprite.Sprite):
--    def __init__(self):
-+    def __init__(self, player_rect):
+```python
+import random
+
+import pygame
+
+from config import *
+from weapons import AlienBullet
+
+
+alien_img = pygame.image.load(ASSET_PATH + "Enemies/enemyRed1.png")
+
+class Alien(pygame.sprite.Sprite):
+    fire_rate = 1300
+    def __init__(self, all_sprites, alien_bullets):
         pygame.sprite.Sprite.__init__(self)
+        self.image = alien_img
+        self.rect = self.image.get_rect()
+        self.rect.centerx = WIDTH/2
+        self.rect.top = 10
+        self.speedx = 5
+
+        self.all_sprites = all_sprites
+        self.alien_bullets = alien_bullets
+        # firing
+        self.next_shot = pygame.time.get_ticks() + random.randint(Alien.fire_rate, Alien.fire_rate * 2)
 ```
 
-We can then add the player to the sprite group:
+The alien needs to know about the all sprites, and will be firing bullets later. There's a firing rate, with a random time for when the alien takes a shot.
+
+```python
+    def update(self):
+        self.rect.centerx += self.speedx
+        if self.rect.right > WIDTH:
+            self.speedx = -5
+        if self.rect.left < 0:
+            self.speedx = 5
+        # fire if it's time
+        now = pygame.time.get_ticks()
+        if now > self.next_shot:
+            self.next_shot = now + random.randint(Alien.fire_rate, Alien.fire_rate * 2)
+            bullet = AlienBullet(self.rect)
+            self.all_sprites.add(bullet)
+            self.alien_bullets.add(bullet)
+```
+
+The alien moves back and forth across the screen. When it's time to fire, it creates a bullet and adds it to the all sprites and alien bullets groups.
+
+### Invasion!
+
+We don't just have one alien, we have a bunch. Lets create a bunch of aliens in alien.py:
+
+```python
+
+aliens = pygame.sprite.Group()
+
+def spawn_aliens(all_sprites, alien_bullets):
+    for i in range(10):
+        alien = Alien(all_sprites, alien_bullets)
+        alien.rect.x = 100 + i * 100
+        all_sprites.add(alien)
+        aliens.add(alien)
+```
+
+This creates 10 aliens, and adds them to the all sprites and aliens groups.
+
+### Alien weapons
+
+The aliens are already trying to fire bullets, but it's importing a class that doesn't exist yet `AlienBullet`. Let's add this to weapons.py:
+
+```python
+alien_bullet_img = pygame.image.load(ASSET_PATH + "Lasers/laserRed04.png")
+
+
+class AlienBullet(pygame.sprite.Sprite):
+    def __init__(self, alien_rect):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = alien_bullet_img
+        self.rect = self.image.get_rect()
+        self.rect.centerx = alien_rect.centerx
+        self.rect.top = alien_rect.bottom
+        self.speedy = 10
+    
+    def update(self):
+        self.rect.y += self.speedy
+        if self.rect.top > HEIGHT:
+            self.kill()
+```
+
+This looks very similar to the player bullet, but it's moving down the screen instead of up.
+
+### Putting the aliens in the game
+
+We need to add these into main.  At the top of `main.py`, after importing Alien, add the alien bullet import line:
 
 ```diff
-alien = Alien()
-+player = Player()
-all_sprites = pygame.sprite.Group()
-all_sprites.add(alien)
-+all_sprites.add(player)
+ from weapons import Bullet
++from alien import spawn_aliens
+ pygame.init()
 ```
 
-We need to modify the key handlers to use the player class rect:
+We'll also add a alien bullets group to specifically track these. Next to the `bullets` creation add:
+
+```diff
+ bullets = pygame.sprite.Group()
++alien_bullets = pygame.sprite.Group()
+```
+
+Now we can spawn the aliens in after the player:
     
 ```diff
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
--               bullet = Bullet()
-+               bullet = Bullet(player.rect)
+player = Player()
+all_sprites.add(player) 
++spawn_aliens(all_sprites, alien_bullets)
+```
+
+Because we already draw and update all sprites in the main loop, it doesn't need to change. You can now run this, and should see aliens moving around and firing back at you!
+
+## Step 4 - Collisions
+
+![Step 4 - Collisions](step_4/step_4.png)
+
+The weapons are all a little ineffective. You are shooting at each other, but nothing is happening. Let's add some collisions.
+
+### It's boomy time!
+
+We want to be able to hit an alien, and a satisfying explosion to show they are gone. Let's add some explosion special effects to our game.
+Create a file called `explosion.py` and add the following:
+
+```python
+import pygame
+
+class Explosion(pygame.sprite.Sprite):
+    def __init__(self, center, frames):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = frames[0]
+        self.rect = self.image.get_rect()
+        self.rect.center = center
+        self.animation_frames = frames
+        self.frame = 0
+        self.last_update = pygame.time.get_ticks()
+        self.frame_rate = 50
+
+    def update(self):
+        now = pygame.time.get_ticks()
+        if now - self.last_update > self.frame_rate:
+            self.last_update = now
+            self.frame += 1
+            if self.frame == len(self.animation_frames):
+                self.kill()
+            else:
+                center = self.rect.center
+                self.image = self.animation_frames[self.frame]
+                self.rect = self.image.get_rect()
+                self.rect.center = center
+```
+
+This explosion class takes a center point, and a list of frames to animate. It will animate the frames at a rate of 50ms per frame.
+This class uses the explosion animation images, and updates the image every 50 milliseconds. When the animation is complete, it uses kill.self to remove itself from the game.
+
+### Another one bites the dust!
+
+At the top of `alien.py` add the following to make use of our new explosion class:
+
+```diff
+ from config import *
+ from weapons import AlienBullet
++from explosion import Explosion
+```
+
+We can now make alien explosions. Let's load 3 images to animate the explosion. Add the following to the bottom of `alien.py`:
+
+```python
+
+explosion_anim = [
+    pygame.image.load(ASSET_PATH + "Effects/star1.png"),
+    pygame.image.load(ASSET_PATH + "Effects/star2.png"),
+    pygame.image.load(ASSET_PATH + "Effects/star3.png")
+]
+```
+
+We add a function in `alien.py` to check for collisions between bullets and aliens. Add the following to the bottom of `alien.py`:
+
+```python
+def collide_aliens(bullets, all_sprites):
+    for alien in aliens:
+        hits = pygame.sprite.spritecollide(alien, bullets, True)
+        if hits:
+            alien.kill()
+            explosion = Explosion(alien.rect.center, explosion_anim)
+            all_sprites.add(explosion)
+```
+
+This will check for collisions between the aliens and the bullets. If there is a collision, the alien is killed, and an explosion is created.
+
+### Putting it in the game
+
+We need to import our collision function, and add it to the main loop. At the top of `main.py` add collide_aliens to the import from alien:
+
+```diff
+ from alien import spawn_aliens, collide_aliens
+```
+
+Then in the main loop, add the check after the `all_sprites.update()` line:
+
+```diff
+ all_sprites.update()
++collide_aliens(bullets, all_sprites)
+```
+
+Now you should be able to shoot the aliens, and see them explode!
+
+## Step 5 - Get wrecked!
+
+![Step 5 - Player gets wrecked!](step_5/step_5.png)
+
+You've been able to watch alien bullets sail right through the ship. We need to add collisions for the player too.
+
+### Impact detected!
+
+The player explosion is very similar to the alien explosion. First we need to import the explosion class in `player.py`:
+
+```diff
+ from config import *
++from explosion import Explosion
+```
+
+Now we load some frames for the explosion. Add the following to the bottom of `player.py`:
+
+```python
+player_explosion_anim = [
+    pygame.image.load(ASSET_PATH + "Damage/playerShip1_damage3.png"),
+    pygame.image.load(ASSET_PATH + "Damage/playerShip1_damage2.png"),
+    pygame.image.load(ASSET_PATH + "Damage/playerShip1_damage1.png")
+]
+```
+
+The next thing is to check the player against incoming alien bullets. Add this at the bottom of `player.py`:
+
+```python
+def collide_player_alien_bullets(all_sprites, player, alien_bullets):
+    if not player.alive():
+        return
+    hits = pygame.sprite.spritecollide(player, alien_bullets, True)
+    if hits:
+        player.kill()
+        explosion = Explosion(player.rect.center, player_explosion_anim)
+        all_sprites.add(explosion)
+```
+
+This function checks if the player is alive, and if there are any collisions between the player and the alien bullets. If there are, the player is killed, and an explosion is created.
+
+### Putting it in the game
+
+Finally we need to add the collision check to the main loop. At the top of `main.py` add the following import:
+
+```diff
+ from config import *
+-from player import Player
++from player import Player, collide_player_alien_bullets
+from weapons import Bullet
+```
+
+Then in the main loop, add the following line after the `collide_aliens(bullets, all_sprites)` line:
+
+```diff
+    collide_aliens(bullets, all_sprites)
++   collide_player_alien_bullets(all_sprites, player, alien_bullets)
+```
+
+Run this and you and the aliens can now shoot at each other until someone dies!
+
+## Step 6 - Game over
+
+We can change the title for a simple game over. 
+First, in `main.py` we need to stop letting the player shoot if they are dead:
+
+```diff
+    if event.type == pygame.KEYDOWN:
+-       if event.key == pygame.K_SPACE:
++       if event.key == pygame.K_SPACE and player.alive():
+                bullet = Bullet(player.rect)
                 all_sprites.add(bullet)
                 bullets.add(bullet)
-    keys = pygame.key.get_pressed()                
-    if keys[pygame.K_LEFT]:
--       player_rect.centerx -= 5
-+       player.rect.centerx -= 5
-    elif keys[pygame.K_RIGHT]:
--       player_rect.centerx += 5
-+       player.rect.centerx += 5
 ```
 
-We can remove the player drawing code from the main loop, as it will be drawn with all sprites:
+We can then change the game caption if the player is dead:
 
 ```diff
+    collide_player_alien_bullets(all_sprites, player, alien_bullets)
++   if not player.alive():
++       pygame.display.set_caption("Game Over!")
     screen.fill((0,0,0))
--   screen.blit(player_img, player_rect)
-    all_sprites.draw(screen)
 ```
 
-Run this code, and at this point it should be the same as before. We can now add the alien shooting code.
+Now when you die, the window title will change to "Game Over!"
 
-### Alien shooting
+## Ideas to extend this
 
-Let's load an alien bullet image:
+This game doesn't really have a win condition, and not much happens when you lose.
 
-```diff
-bullet_img = pygame.image.load(asset_path + "Lasers/laserBlue01.png")
-+alien_bullet_img = pygame.image.load(asset_path + "Lasers/laserRed04.png")
-```
-
-We can add a new class for the alien bullet. It will lot very similar to the bullet class.
-
-```diff
-+class AlienBullet(pygame.sprite.Sprite):
-+    def __init__(self, alien_rect):
-+        pygame.sprite.Sprite.__init__(self)
-+        self.image = alien_bullet_img
-+        self.rect = self.image.get_rect()
-+        self.rect.centerx = alien_rect.centerx
-+        self.rect.bottom = alien_rect.bottom
-+        self.speedy = 10
-+
-+   def update(self):
-+       self.rect.y += self.speedy
-+       if self.rect.bottom > HEIGHT:
-+           self.kill()
-+   
-```
+- You can add a Game Over screen, so that when the player dies, it shows this other screen - either using pygame text, or a big image.
+- The game could offer to restart when the player dies.
+- If all the aliens die, you could also add a win screen.
+- Aliens moving around are a bit easy to dodge forever, maybe they could move down a bit when they hit the sides of the screen?
+- You could spawn in more aliens when all the aliens die, so they come in waves.
+- You could add a score, and show it on the screen.
+- The player dies on one hit, but you could make it so that the player has a few lives, and dies after a few hits.
+- You could use techniques from the make it rain tutorial to add a moving starfield background.
+- You could have a background image, and add the player and aliens on top of it.
+- Add powerups, like a shield, or a faster firing weapon.
+- Add a boss alien, that takes a lot of hits to kill.
