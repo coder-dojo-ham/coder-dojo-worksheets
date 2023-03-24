@@ -21,7 +21,7 @@ This sheet recommends using Thonny in Python 3 mode and the `coder-dojo-common-p
 ### Assets
 
 Create a folder for this game named "`invaders`". If using mu, put this under the "`mu_code`" folder.
-Download the assets from <https://kenney.nl/assets/space-shooter-redux>, and unzip into a folder called "`assets`" in the same folder as your code. 
+Download the assets from <https://kenney.nl/assets/space-shooter-redux>, and unzip into a folder called "`assets`" in the same folder as your code.
 
 ## Step 1 - The player
 
@@ -29,7 +29,7 @@ Download the assets from <https://kenney.nl/assets/space-shooter-redux>, and unz
 
 ### Configuration
 
-A few configuration variables allow us to change the size and speed of our game, along with where the assets are.
+A few configuration variables allow us to setup the size and speed of our game, along with where the assets are.
 
 Make a file "`config.py`" and add the following:
 
@@ -272,7 +272,6 @@ The alien moves back and forth across the screen. When it's time to fire, it cre
 We don't just have one alien, we have a bunch. Lets create a bunch of aliens in alien.py:
 
 ```python
-
 aliens = pygame.sprite.Group()
 
 def spawn_aliens(all_sprites, alien_bullets):
@@ -287,7 +286,7 @@ This creates 10 aliens, and adds them to the all sprites and aliens groups.
 
 ### Alien weapons
 
-The aliens are already trying to fire bullets, but it's importing a class that doesn't exist yet `AlienBullet`. Let's add this to weapons.py:
+The aliens are already trying to fire bullets, but it's importing a class that doesn't exist yet `AlienBullet`. Let's add this to the file "`weapons.py`":
 
 ```python
 alien_bullet_img = pygame.image.load(ASSET_PATH + "Lasers/laserRed04.png")
@@ -312,7 +311,7 @@ This looks very similar to the player bullet, but it's moving down the screen in
 
 ### Putting the aliens in the game
 
-We need to add these into main.  At the top of `main.py`, after importing Alien, add the alien bullet import line:
+We need to add these into main.  At the top of "`main.py`", after importing Alien, add the alien bullet import line:
 
 ```diff
  from weapons import Bullet
@@ -346,7 +345,7 @@ The weapons are all a little ineffective. You are shooting at each other, but no
 ### It's boomy time!
 
 We want to be able to hit an alien, and a satisfying explosion to show they are gone. Let's add some explosion special effects to our game.
-Create a file called `explosion.py` and add the following:
+Create a file called "`explosion.py`" and add the following:
 
 ```python
 import pygame
@@ -381,7 +380,7 @@ This class uses the explosion animation images, and updates the image every 50 m
 
 ### Another one bites the dust!
 
-At the top of `alien.py` add the following to make use of our new explosion class:
+At the top of "`alien.py`" add the following to make use of our new explosion class:
 
 ```diff
  from config import *
@@ -389,7 +388,7 @@ At the top of `alien.py` add the following to make use of our new explosion clas
 +from explosion import Explosion
 ```
 
-We can now make alien explosions. Let's load 3 images to animate the explosion. Add the following to the bottom of `alien.py`:
+We can now make alien explosions. Let's load 3 images to animate the explosion. Add the following to the bottom of "`alien.py`":
 
 ```python
 
@@ -400,7 +399,7 @@ explosion_anim = [
 ]
 ```
 
-We add a function in `alien.py` to check for collisions between bullets and aliens. Add the following to the bottom of `alien.py`:
+We add a function in "`alien.py`" to check for collisions between bullets and aliens. Add the following to the bottom of "`alien.py`":
 
 ```python
 def collide_aliens(bullets, all_sprites):
@@ -416,7 +415,7 @@ This will check for collisions between the aliens and the bullets. If there is a
 
 ### Putting it in the game
 
-We need to import our collision function, and add it to the main loop. At the top of `main.py` add collide_aliens to the import from alien:
+We need to import our collision function, and add it to the main loop. At the top of "`main.py`" add collide_aliens to the import from alien:
 
 ```diff
  from alien import spawn_aliens, collide_aliens
@@ -439,7 +438,7 @@ You've been able to watch alien bullets sail right through the ship. We need to 
 
 ### Impact detected!
 
-The player explosion is very similar to the alien explosion. First we need to import the explosion class in `player.py`:
+The player explosion is very similar to the alien explosion. First we need to import the explosion class in "`player.py`":
 
 ```diff
  from config import *
