@@ -102,3 +102,5 @@ ENV/
 # mypy
 .mypy_cache/
 python/making_sheets/README.pdf
+python/connect_the_power/assets/kenney_*
+python/connect_the_power/assets/puzzle-*
