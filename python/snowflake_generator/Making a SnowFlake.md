@@ -2,22 +2,27 @@
 title: Making a snowflake!
 ---
 <div class="key-info">
-<div>Difficulty: <span class="chillies">🌶🌶🌶</span><span class="remainingchillies">🌶🌶</span></div><div>Language: Python</div><div>Requires: Laptop with Python, coderdojo [games] or pygame</div>
+<div>Difficulty: <span class="chillies">🌶🌶🌶</span><span class="remainingchillies">🌶🌶</span></div><div>Language: Python
+</div><div>Requires: Laptop with Python, coderdojo [games] or pygame</div>
 </div>
 
+Sheet link:
+![[qr-link.png|100]]
 ![Snowflake examples](image_1_cover.png)
 Let's use Python and Pygame to make snowflakes, different every time!
 
 Please take care with names and case. Python is case sensitive, so `SnowFlake` is different to `snowflake`. If you get an error, check your spelling and capitalisation.
 
-This sheet recommends using Thonny in Python 3 mode and the `coder-dojo-common-python[games]` package.
+This sheet recommends using Thonny from <https://thonny.org> in Python 3 mode.
 
- You do not need to type the whole example out again, only make changes where shown. Throughout this sheet we will use diff blocks to show you what changes we're making to code. Key:
+You do not need to type the whole example out again, only make changes where shown. Throughout this sheet we will use diff blocks to show you what changes we're making to code. Key:
 ```diff
 + this is a new line to add into your code
 - this is a line to remove from your code
   and this is a line to leave the same.
 ```
+
+Code for this sheet is at <https://github.com/coder-dojo-ham/coder-dojo-worksheets/tree/main/python/snowflake_generator>. 
 ## Step 1 - Setting up
 Let's get ourselves a screen to draw on using PyGame. We'll collect some imports on the way too. In a new file add the following:
 
