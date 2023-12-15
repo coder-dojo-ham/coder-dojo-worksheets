@@ -1,15 +1,14 @@
 ---
 title: Python Turtle Raindrops
 ---
-<link rel="stylesheet" href="../css/sheet.css">
+## Python Turtle Raindrops
+<div class="key-info">
+<div>Difficulty: <span class="chillies">🌶🌶</span><span class="remainingchillies">🌶🌶🌶</span></div><div>Language: Python
+</div><div>Requires: Laptop with Python, Thonny or Mu</div>
+</div>
 
-<table class="key_info">
-<tr><td class="difficulty">Difficulty: <b>🌶🌶</b><i>🌶🌶🌶</i></td>
-<td>Language: Python</td>
-<td>Requires: Laptop with Python</td></tr>
-</table>
-
-<img src="inspiration-rain-lake-screenshot.png" class="leader_picture"/>
+![[3frby9mh-400.png|100]]
+![[inspiration-rain-lake-screenshot.png]]
 
 We'll use python and turtle to make it rain. Once you've got it raining,
 have a go at making other things move around on the screen.
@@ -22,10 +21,6 @@ and functions.
 We'll be introducing one new element - lists.
 
 And you'll get to do some simple animation! Stuff that moves!
-
-This sheet recommends using Mu in Python 3 mode.
-
-<!-- -- id="draw-raindrop" -->
 ## Drawing a raindrop
 
 Lets start by setting up turtle to draw fast with `speed(0)`, hide the turtle with `hideturtle`, and pull up the pen with `penup`.
@@ -43,7 +38,7 @@ Save this in a file name like `rain.py` and run it.
 
 To draw a simple drop we can use a blue circle. Add this:
 
-<img src="raindrop-blue-circle.png" style="margin:0; padding: 0; float: right; margin-right: 5%; border: 0; box-shadow: none">
+![[raindrop-blue-circle.png]]
 
 ```python
 t.shape("circle")
@@ -55,8 +50,6 @@ t.stamp()
 
 `t.shape` changes the turtles shape, `t.goto` jumps to a set of coordinates.
 By using `t.stamp`, we can leave behind a stamp, an image of the turtles current shape on the canvas where it stands.
-
-
 ## Drawing multiple drops
 
 We are going to want to stamp a blue circle many times - so let's move the drawing code into a function:
@@ -82,9 +75,7 @@ draw_drop(50, 20)
 There is a negative number there. This is because `0, 0` is the middle of screen - so to go further down, or left, we need to subtract from `0` to get there. When you run this, it should draw 3 raindrops.
 
 ![Drawing 3 drops](drawing-3-drops.png)
-
 ## More rain
-<!-- -- id="more-rain" -->
 There are many raindrops in rain. Let's use a list to hold them:
 
 <pre><code><del>draw_drop(0, 0)
@@ -97,11 +88,11 @@ for drop in drops:
     draw_drop(drop[0], drop[1])
 </code></pre>
 
-Drops is a list of (x,y) pairs - each a small list too. When we draw this - x is drop[0] and y is drop[1]. This should show the same 3 drops as before, but you can change the list to add more drops.
+Drops is a list of (x,y) pairs - each a small list too. When we draw this - x is `drop[0]` and y is `drop[1]`. This should show the same 3 drops as before, but you can change the list to add more drops.
 
 ### Random rain
 
-Now we can make the list bigger. Let's add 100 raindrops using `random` to scatter them around the screen. First we need to import random at the top of our code:
+Now we can make the list bigger. Lets add 100 raindrops using `random` to scatter them around the screen. First we need to import random at the top of our code:
 
 <pre><code>
 import turtle
@@ -154,8 +145,6 @@ for drop in drops:
 ```
 
 ## Preparing to animate
-<!-- -- id="prep-animate" -->
-
 You may have noticed that drawing the drops was a bit slow - one drop at a time. If we are going to animate this, we need to be able to draw a lot faster. Add the bold line near the top of the file.
 Note that this should be `turtle` and not `t`.
 <pre><code>import turtle
@@ -175,7 +164,6 @@ This will be very quick, but it's actually drawn on a background/hidden screen. 
 <b>turtle.update()</b></code></pre>
 
 This will now make the random raindrops draw much faster.
-
 ## Moving the raindrops
 
 We can start to make these raindrops move now.
@@ -204,19 +192,18 @@ Our animation is in the while loop. It clears the drawings, then moves them down
 After drawing all drops, we update the screen. This makes a different picture every time, which will look like the drops are moving.
 
 You'll note all the drops fall off the screen here. You may see an "invalid command name" and a large number when you close the window, don't worry - this can be ignored for now.
-
 ## Rain from the top again
 
 We can stop them falling off. The bottom of the screen here is -400. So if we are below that, we can put them back at the top. Add the following in the loop after we subtract 3 from the drop y:
 
 <pre><code>
    for drop in drops:
-        drop[1] -= 3<b>
-        if drop[1] < -400:
+        drop[1] -= 3
+        <b>if drop[1] &lt; -400:
             drop[1] = 400</b>
         draw_drop(drop[0], drop[1])
     turtle.update()
-</code></pre>
+</pre></code>
 
 ## Checkpoint 2
 
@@ -255,11 +242,9 @@ while True:
 
 ## Ideas to try
 
-<!-- -- id="ideas" -->
+### Further drop parameters
 
-### Try adding further parameters
-
-You can try using a 3rd item in the lists - for speed, or raindrop size (t.shapesize). Let's try using it for speed.
+You can try using a 3rd item in the lists - for speed, or raindrop size (`t.shapesize`). Let's try using it for speed.
 
 When creating the drop, we can try a number between 2 and 4:
 
@@ -273,7 +258,7 @@ You can then use this 3rd parameter for speed instead of -3:
 <pre><code>     for drop in drops:<del>
          drop[1] -= 3</del><b>
          drop[1] -= drop[2]</b>
-         if drop[1] < -400:
+         if drop[1] &lt; -400:
              drop[1] = 400
 </code></pre>
 
@@ -311,12 +296,11 @@ turtle.tracer(0, 0)
 t = turtle.Turtle()
 </code></pre>
 
-<img src="inspiration-rain-lake-screenshot.png" style="height: 200px; margin-right: 10px"><img src="inspiration-space-scene.png" style="height: 200px">
+![[inspiration-rain-lake-screenshot.png| 200]] ![[inspiration-space-scene.png|200]]
 
 You can create a rainy, space or snowy scenes. Making the dots small with a space background. Get creative!
 
 Stars:
-
 ```python
 t.shape("circle")
 t.color("lightblue")
@@ -327,8 +311,6 @@ t.shapesize(0.1)
 ```
 
 ## Turtle Colours
-
-<!-- -- id="colours" -->
 
 This is a limited list. Look up "TK colours" for more names. You can also use three numbers for red, green and blue to mix your
 own colours: `t.color((172, 38, 53))` <span style="background: rgb(172, 38, 53)">Sample</span>.
