@@ -1,27 +1,42 @@
 ---
 title: Invaders!
 ---
-<link rel="stylesheet" href="../common/sheet.css">
+# Invaders!
 
-<table class="key_info">
-<tr><td class="difficulty">Difficulty: <b>🌶🌶🌶</b><i>🌶🌶</i></td>
-<td>Language: Python</td>
-<td>Requires: Laptop with Python, coderdojo [games]</td></tr>
-</table>
+<div class="key-info">
+<div>Difficulty: <span class="chillies">🌶🌶🌶</span><span class="remainingchillies">🌶🌶</span></div><div>Language: Python
+</div><div>Requires: Laptop with Python, Thonny and coderdojo [games]</div>
+</div>
 
-<img src="step_3/step_3.png" class="leader_picture" style="width: 45%"/><img src="step_4/step_4.png" class="leader_picture" style="width: 45%"/>
+![[step_3.png|300]]![[step_4.png|300]]
+![[qr-code.png|100]]
 
 Waves of aliens are attacking the Earth! We need to defend our planet by shooting them down with our laser cannon.
-In this you will learn how to use the pygame library to make a game, along with classes, python imports and pygame sprite groups. This game will be made using multiple files, so you can see how to organise your code.
+In this you will learn how to use the `pygame` library to make a game, along with classes, python imports and `pygame` sprite groups. This game will be made using multiple files, so you can see how to organise your code.
 
 Please take care with names and case. Python is case sensitive, so `Player` is different to `player`. If you get an error, check your spelling and capitalisation.
 
 This sheet recommends using Thonny in Python 3 mode and the `coder-dojo-common-python[games]` package.
 
+Throughout this sheet we will use diff blocks to show you what changes we're making to code or files to add. For instance:
+
+```diff
++ this is a new line to add into your code
+- this is a line to remove from your code
+  and this is a line not to touch.
+```
+
+Sheet link: <https://github.com/coder-dojo-ham/coder-dojo-worksheets/blob/main/python/pygame_invaders/invaders.pdf>
+
 ### Assets
 
 Create a folder for this game named "`invaders`". If using mu, put this under the "`mu_code`" folder.
 Download the assets from <https://kenney.nl/assets/space-shooter-redux>, and unzip into a folder called "`assets`" in the same folder as your code.
+
+```diff
+invaders
++ |- assets/spaceshooter-redux
+```
 
 ## Step 1 - The player
 
@@ -30,6 +45,12 @@ Download the assets from <https://kenney.nl/assets/space-shooter-redux>, and unz
 ### Configuration
 
 A few configuration variables allow us to setup the size and speed of our game, along with where the assets are.
+
+```diff
+invaders
+  |- assets/spaceshooter-redux
++ |- config.py
+```
 
 Make a file "`config.py`" and add the following:
 
@@ -45,6 +66,14 @@ Asset path will indicate what folder on your computer the game will load its ass
 ### The player
 
 We'll create a Player sprite class, loading an image from the assets path.
+
+```diff
+invaders
+  |- assets/spaceshooter-redux
+  |- config.py
++ |- player.py
+```
+
 Create a new file called "`player.py`" and add the following:
 
 ```python
@@ -73,6 +102,15 @@ You can run this to check for errors, but it won't show anything yet.
 ### The game
 
 The file `main.py` will load the other parts of the game in, and runs the main loop.
+
+```diff
+invaders
+  |- assets/spaceshooter-redux
+  |- config.py
++ |- main.py
+  |- player.py
+```
+
 Let's import the player and the config we've just made.
 
 Create a new file called "`main.py`" and add the following:
@@ -123,6 +161,7 @@ At this point you can run the game and see the player on screen.
 
 The variable `running` is used to keep the game running until we quit. `while` the variable `running` is true, the game loop will go. The `for` loop goes through all the events that have happened since the last frame, and checks if we've quit. If we have, we set `running` to `False` and the game will stop.
 
+`main.py` is the file you should run to start the game.
 Test and run this code to see the player on screen.
 
 ## Step 2 - The player moves
@@ -134,6 +173,15 @@ We are going to add player controls and weapon firing for the player.
 ### Weapons hot!
 
 Let's make a file called `weapons.py` and add a class for the player's weapon. This will look quite similar to the player file.
+
+```diff
+invaders
+  |- assets/spaceshooter-redux
+  |- config.py
+  |- main.py
+  |- player.py
++ |- weapons.py
+```
 
 Create a new file called "`weapons.py`" and add the following:
 
@@ -217,6 +265,16 @@ We'll add some aliens to the game, and make them move across the screen.
 ### Aliens
 
 Let's make a file called "`alien.py`" and add a class for the alien sprite. This will look quite similar to the player file.
+
+```diff
+invaders
+  |- assets/spaceshooter-redux
++ |- alien.py
+  |- config.py
+  |- main.py
+  |- player.py
+  |- weapons.py
+```
 
 Create a new file called "`alien.py`" and add the following:
 
@@ -345,6 +403,18 @@ The weapons are all a little ineffective. You are shooting at each other, but no
 ### It's boomy time!
 
 We want to be able to hit an alien, and a satisfying explosion to show they are gone. Let's add some explosion special effects to our game.
+
+```diff
+invaders
+  |- assets/spaceshooter-redux
+  |- alien.py
+  |- config.py
++ |- explosion.py
+  |- main.py
+  |- player.py
+  |- weapons.py
+```
+
 Create a file called "`explosion.py`" and add the following:
 
 ```python
@@ -515,11 +585,27 @@ We can then change the game caption if the player is dead:
 
 Now when you die, the window title will change to "Game Over!"
 
+## Files summary
+
+You should have these files in your project now:
+
+```diff
+invaders
+  |- assets/spaceshooter-redux - images
+  |- alien.py - Alien movement
+  |- config.py - Game settings
+  |- explosion.py - Explosion animation
+  |- main.py - Main game loop - run this
+  |- player.py - Player movement
+  |- weapons.py - Bullet movement
+```
+
 ## Ideas to extend this
 
 This game doesn't really have a win condition, and not much happens when you lose.
 
 - You can add a Game Over screen, so that when the player dies, it shows this other screen - either using pygame text, or a big image.
+- Could you get PyGame to draw stars?
 - The game could offer to restart when the player dies.
 - If all the aliens die, you could also add a win screen.
 - Aliens moving around are a bit easy to dodge forever, maybe they could move down a bit when they hit the sides of the screen?
