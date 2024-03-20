@@ -7,7 +7,7 @@ title: Tic-Tac-Toe Challenge!
 </div>
 
 Sheet link:
-![[tictactoe-qr-link.png|100]]
+![[tictactoe-bdhphy53-400.png|100]]
 
 ![[Screenshot 2024-03-20 at 18.36.24.png|400]]
 Ready for some classic gaming fun? Let’s build a Tic-Tac-Toe game in Python using PyGame!

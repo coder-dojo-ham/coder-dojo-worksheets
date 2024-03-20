@@ -9,7 +9,7 @@ title: Invaders!
 </div>
 
 ![[step_3.png|300]]![[step_4.png|300]]
-![[qr-code.png|100]]
+![[invaders-qr-code.png|100]]
 
 Waves of aliens are attacking the Earth! We need to defend our planet by shooting them down with our laser cannon.
 In this you will learn how to use the `pygame` library to make a game, along with classes, python imports and `pygame` sprite groups. This game will be made using multiple files, so you can see how to organise your code.
