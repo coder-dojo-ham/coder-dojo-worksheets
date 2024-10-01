@@ -40,7 +40,8 @@ title: Python turtle sheet 1
 
 <img src="2017-05-18-turtle-filled-hex.png" style="width: 400px; float: left; margin-right: 20px; margin-top: 0px"/>
 
-![QR Code](turtle-sheet-1-400.png)
+<img src="turtle-sheet-1-400.png" style="width: 80px;" alt="QR Code"/>
+
 We'll use python to make shapes with turtle graphics, starting from a simple square and then working up to more interesting shapes.
 
 I recommend using Mu in Python3 mode for this.
