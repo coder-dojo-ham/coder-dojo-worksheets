@@ -264,7 +264,8 @@ Remember to test each part of your code thoroughly to ensure everything works as
 
 - Graphical win conditions
 - Displaying the current player
-- Changing the colour of the player counters
+- Changing the colour of the player counters (or colours of any of it)
+- Background image? For fun.
 
 ## Extension - Displaying the Current Player
 
@@ -307,6 +308,8 @@ sys.exit()
 ```
 
 After making these changes, run your game again. You should now see the "Now playing" text at the bottom of the window, telling you whose turn it is.
+
+Could this be a box with a counter in it instead?
 
 ## Extension - making player counters a different colour
 
