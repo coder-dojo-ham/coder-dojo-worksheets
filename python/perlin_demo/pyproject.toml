@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "perlin-demo"
+version = "0.1.0"
+description = ""
+authors = ["Danny Staple <danny@orionrobots.co.uk>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9,<3.11"
+perlin-noise = "^1.12"
+coder-dojo-common-python = {extras = ["games"], version = "^0.0.2"}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
