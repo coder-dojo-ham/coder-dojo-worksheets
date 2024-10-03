@@ -1,8 +1,8 @@
 import turtle
 import random
 
-screen = turtle.Screen()
-screen.bgpic("lake-background.png")
+turtle.setup(800, 800)
+turtle.bgpic("lake-background.png")
 
 turtle.tracer(0, 0) # yes this should be turtle, not t.
 t = turtle.Turtle()
